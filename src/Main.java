@@ -13,7 +13,7 @@ public class Main{
         ResultSet res = null;
         Connection con = null;
         Statement stat = null;
-
+        //SQL запросы
         String sqlCreate = "CREATE TABLE technics (Id INT PRIMARY KEY, ProductName VARCHAR(30), Type VARCHAR(30), Count INT, Price INT)";
         String sqlAdd = "INSERT INTO technics(Id, ProductName, Type, Count, Price) VALUES " +
                 "(1,'Iphone 15', 'Phone', 5, 600000)," +
@@ -31,13 +31,15 @@ public class Main{
             Class.forName("org.postgresql.Driver");
             // Получаем метаданные о таблицах в базе данных
             ResultSet tables = metaData.getTables(null, null, tableName, null);
-            if (tables.next()) {
+            if (tables.next()) { //Если таблица существует пользователю дается выбор пользователю
                 Statement statement = conn.createStatement();
                 System.out.println("Таблица с именем " + tableName + " существует.");
                 System.out.println("Что вы хотите сделать с таблицой?: ");
                 System.out.println("1.Удалить одну строку\n2.Обновить\n3.Посмотреть\n4.Удалить таблицу");
                 int n = scanner.nextInt();
+                //Выбор пользователю
                 switch (n){
+                        //После выбора выполняется код с конструкции switch-case и после выполнения выводиться таблица
                     case 1: statement.executeUpdate(sqlDeleteOne);
                         System.out.println("Часть таблицы удалена");
                         ResultSet resultSet = statement.executeQuery(sqlWatch);
@@ -68,7 +70,7 @@ public class Main{
                         System.out.println("Введите цифру от 1 до 5");
                         break;
                 }
-            } else {
+            } else { //Если таблица не существует то создается новая таблица и туда загружаются данные
                 Statement statement = conn.createStatement();
                 statement.executeUpdate(sqlCreate);
                 System.out.println("Таблица создана");
